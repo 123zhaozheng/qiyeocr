@@ -13,8 +13,8 @@ class ExtractType(StrEnum):
 
 
 class ExtractRecipientRequest(BaseModel):
-    type: ExtractType
-    content: str = Field(min_length=1)
+    DataFormat: ExtractType
+    EssayContent: str = Field(min_length=1)
 
 
 class ExtractRecipientResponse(BaseModel):

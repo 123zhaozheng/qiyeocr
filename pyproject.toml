@@ -2,7 +2,6 @@
 name = "qiweiocr"
 version = "0.1.0"
 description = "Add your description here"
-readme = "README.md"
 authors = [
     { name = "zhaozhengtong", email = "1219673367@qq.com" }
 ]
@@ -16,12 +15,6 @@ dependencies = [
     "uvicorn>=0.42.0",
 ]
 
-[project.scripts]
-qiweiocr = "qiweiocr:main"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
