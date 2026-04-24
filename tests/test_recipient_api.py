@@ -58,7 +58,12 @@ def test_esb_request_returns_esb_payload() -> None:
         "/api/v1/extract-recipient",
         json={
             "ReqInfo": {"TranCode": "TEST001"},
-            "Request": {"type": "text", "content": "张三丰 6212263602001234567 工商银行"},
+            "Request": {
+                "Input": {
+                    "DataFormat": "text",
+                    "EssayContent": "张三丰 6212263602001234567 工商银行",
+                }
+            },
         },
     )
 
@@ -82,7 +87,12 @@ def test_esb_error_wrapped_with_http_200() -> None:
         "/api/v1/extract-recipient",
         json={
             "ReqInfo": {"TranCode": "TEST001"},
-            "Request": {"type": "text", "content": "bad"},
+            "Request": {
+                "Input": {
+                    "DataFormat": "text",
+                    "EssayContent": "bad",
+                }
+            },
         },
     )
 

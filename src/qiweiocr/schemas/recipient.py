@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from enum import StrEnum
 
+from pydantic import AliasChoices
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
@@ -13,8 +14,18 @@ class ExtractType(StrEnum):
 
 
 class ExtractRecipientRequest(BaseModel):
-    DataFormat: ExtractType
-    EssayContent: str = Field(min_length=1)
+    model_config = ConfigDict(populate_by_name=True)
+
+    DataFormat: ExtractType = Field(
+        validation_alias=AliasChoices("DataFormat", "type"),
+        serialization_alias="DataFormat",
+    )
+    EssayContent: str = Field(
+        min_length=1,
+        validation_alias=AliasChoices("EssayContent", "content"),
+        serialization_alias="EssayContent",
+        description="文本模式传原始文本；图片模式传 FTP 文件路径。",
+    )
 
 
 class ExtractRecipientResponse(BaseModel):

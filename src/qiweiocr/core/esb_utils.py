@@ -16,7 +16,10 @@ class EsbWrapper:
         request = esb_request.get("Request")
         if not isinstance(request, dict):
             raise ValueError("ESB Request must be an object")
-        return request
+        input_data = request.get("Input")
+        if not isinstance(input_data, dict):
+            raise ValueError("ESB Request.Input must be an object")
+        return input_data
 
     @staticmethod
     def wrap_response(

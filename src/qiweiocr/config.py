@@ -24,6 +24,16 @@ class Settings(BaseSettings):
     openai_model_image: str = "qwen-vl-max-latest"
     openai_timeout_seconds: float = 60.0
 
+    ftp_host: str = Field(default="", alias="FTP_HOST")
+    ftp_port: int = Field(default=21, alias="FTP_PORT")
+    ftp_username: str | None = Field(default=None, alias="FTP_USERNAME")
+    ftp_password: str | None = Field(default=None, alias="FTP_PASSWORD")
+    ftp_base_dir: str | None = Field(default=None, alias="FTP_BASE_DIR")
+    ftp_timeout_seconds: float = Field(default=30.0, alias="FTP_TIMEOUT_SECONDS")
+    ftp_passive: bool = Field(default=True, alias="FTP_PASSIVE")
+    ftp_use_tls: bool = Field(default=False, alias="FTP_USE_TLS")
+    ftp_encoding: str = Field(default="utf-8", alias="FTP_ENCODING")
+
 
 @lru_cache
 def get_settings() -> Settings:
