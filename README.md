@@ -29,6 +29,26 @@ ESB request body uses `Request.Input` as the business payload, for example:
 }
 ```
 
+ESB response body uses `Response.OutPut` as the business payload, for example:
+
+```json
+{
+  "RspInfo": {
+    "RspCode": "0000",
+    "RspDesc": "成功"
+  },
+  "Response": {
+    "OutPut": {
+      "Acctno": "6212263602001234567",
+      "Accnm": "张三丰",
+      "BankNo": "102100099996",
+      "AcctnoBankName": "中国工商银行北京市海淀区支行",
+      "BufferDesc": false
+    }
+  }
+}
+```
+
 ### FTP Config
 
 Configure these env vars when image requests use FTP:

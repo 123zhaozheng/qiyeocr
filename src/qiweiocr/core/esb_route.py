@@ -94,7 +94,7 @@ class EsbRoute(APIRoute):
                         esb_request=request.state.esb_request,
                         business_data=business_resp,
                         resp_st=EsbRespStatus.SUCCESS,
-                        resp_info_code="0000",
+                        resp_info_code="000000",
                         desc="成功",
                     )
                 else:

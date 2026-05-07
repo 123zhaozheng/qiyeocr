@@ -68,15 +68,18 @@ def test_esb_request_returns_esb_payload() -> None:
     )
 
     assert response.status_code == 200
-    assert response.json() == {
-        "RspInfo": {"RspCode": "0000", "RspDesc": "成功"},
-        "Response": {
-            "Acctno": "6212263602001234567",
-            "Accnm": "张三丰",
-            "BankNo": "102100099996",
-            "AcctnoBankName": "中国工商银行北京市海淀区支行",
-            "BufferDesc": False,
-        },
+    data = response.json()
+    assert data["RspInfo"]["RespSt"] == "S"
+    assert data["RspInfo"]["RespInfo"] == "AIMP000000"
+    assert data["RspInfo"]["RespInfoDsc"] == "成功"
+    assert data["RspInfo"]["SvcStmInd"] == "AIMP"
+    assert data["RspInfo"]["SvcStmRespSeqNum"].startswith("RAIMP")
+    assert data["Response"]["OutPut"] == {
+        "Acctno": "6212263602001234567",
+        "Accnm": "张三丰",
+        "BankNo": "102100099996",
+        "AcctnoBankName": "中国工商银行北京市海淀区支行",
+        "BufferDesc": False,
     }
 
 
@@ -97,7 +100,9 @@ def test_esb_error_wrapped_with_http_200() -> None:
     )
 
     assert response.status_code == 200
-    assert response.json() == {
-        "RspInfo": {"RspCode": "400", "RspDesc": "提取失败，请手动填写"},
-        "Response": {},
-    }
+    data = response.json()
+    assert data["RspInfo"]["RespSt"] == "F"
+    assert data["RspInfo"]["RespInfo"] == "AIMP400"
+    assert data["RspInfo"]["RespInfoDsc"] == "提取失败，请手动填写"
+    assert data["RspInfo"]["SvcStmInd"] == "AIMP"
+    assert data["Response"]["OutPut"] == {}
