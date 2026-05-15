@@ -184,4 +184,23 @@ class LlmService:
     def _build_data_url(base64_image: str) -> str:
         if base64_image.startswith("data:image"):
             return base64_image
-        return f"data:image/png;base64,{base64_image}"
+
+        # 根据图片内容的 magic bytes 自动推断 MIME 类型，
+        # 避免把 jpeg/webp/gif 伪装成 png 导致 LLM 后端解码失败
+        import base64
+        try:
+            header = base64.b64decode(base64_image[:32])
+        except Exception:
+            header = b""
+
+        mime = "image/png"  # 默认兜底
+        if header.startswith(b"\x89PNG\r\n\x1a\n"):
+            mime = "image/png"
+        elif header.startswith(b"\xff\xd8\xff"):
+            mime = "image/jpeg"
+        elif header.startswith(b"GIF87a") or header.startswith(b"GIF89a"):
+            mime = "image/gif"
+        elif header.startswith(b"RIFF") and b"WEBP" in header[:16]:
+            mime = "image/webp"
+
+        return f"data:{mime};base64,{base64_image}"
